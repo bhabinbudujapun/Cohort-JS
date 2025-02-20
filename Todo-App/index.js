@@ -1,9 +1,9 @@
 let addTaskButton = document.getElementById("addTaskButton");
 
-addTaskButton.addEventListener("click", () => {
-  // Selecting task list
-  let taskList = document.getElementById("taskList");
+// Selecting task list
+let taskList = document.getElementById("taskList");
 
+addTaskButton.addEventListener("click", () => {
   // Creating 'li' tag/element
   let taskItem = document.createElement("li");
 
@@ -20,4 +20,10 @@ addTaskButton.addEventListener("click", () => {
   // And at last adding task item in task list
 
   taskList.appendChild(taskItem);
+});
+
+let clearTaskButton = document.getElementById("clearTaskButton");
+
+clearTaskButton.addEventListener("click", () => {
+  taskList.replaceChildren();
 });
