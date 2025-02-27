@@ -5,15 +5,18 @@ body {
   padding: 20px;
   text-align: center;
 }
+
 h1 {
   transition: color 0.3s ease;
 }
+
 .color-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin: 20px 0;
 }
+
 button {
   padding: 10px 15px;
   border: none;
@@ -21,18 +24,23 @@ button {
   cursor: pointer;
   color: white;
 }
+
 #redButton {
   background-color: #e74c3c;
 }
+
 #greenButton {
   background-color: #2ecc71;
 }
+
 #blueButton {
   background-color: #3498db;
 }
+
 #purpleButton {
   background-color: #9b59b6;
 }
+
 #resetButton {
   background-color: #34495e;
 }
