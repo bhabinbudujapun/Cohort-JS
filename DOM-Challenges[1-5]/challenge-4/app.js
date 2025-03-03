@@ -12,6 +12,9 @@ function uniqueIdGenerator() {
 let completedTasksNumber = 0;
 
 addButton.addEventListener("click", () => {
+  // Check for empty and whitespace value
+  if (!taskInput.value.trim().length) return;
+
   const li = document.createElement("li");
   li.classList.add("task-item");
 
@@ -25,14 +28,30 @@ addButton.addEventListener("click", () => {
   label.textContent = taskInput.value;
   label.htmlFor = input.id;
 
-  const button = document.createElement("button");
-  button.classList.add("delete-button");
-  button.style.marginLeft = "auto";
-  button.textContent = "Delete";
+  // Create div element for input-task
+  const divInputTask = document.createElement("div");
+  divInputTask.classList.add("input-task");
+  divInputTask.appendChild(input);
+  divInputTask.appendChild(label);
 
-  li.appendChild(input);
-  li.appendChild(label);
-  li.appendChild(button);
+  const deleteButton = document.createElement("button");
+  deleteButton.type = "button";
+  deleteButton.classList.add("delete-button");
+  deleteButton.textContent = "Delete";
+
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.classList.add("edit-button");
+  editButton.textContent = "Edit";
+
+  // Create div element for button-task
+  const divButtonTask = document.createElement("div");
+  divButtonTask.classList.add("button-task");
+  divButtonTask.appendChild(editButton);
+  divButtonTask.appendChild(deleteButton);
+
+  li.appendChild(divInputTask);
+  li.appendChild(divButtonTask);
 
   // Add recent task from the top
   taskList.prepend(li);
@@ -52,10 +71,10 @@ addButton.addEventListener("click", () => {
   changeOnCheckBox.addEventListener("change", () => {
     if (changeOnCheckBox.checked) {
       completedTasksNumber += 1;
-      completedTasks.textContent = `Total tasks: ${completedTasksNumber}`;
+      completedTasks.textContent = `Completed: ${completedTasksNumber}`;
     } else {
       completedTasksNumber -= 1;
-      completedTasks.textContent = `Total tasks: ${completedTasksNumber}`;
+      completedTasks.textContent = `Completed: ${completedTasksNumber}`;
     }
   });
 });
