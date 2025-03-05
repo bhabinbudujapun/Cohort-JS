@@ -24,6 +24,16 @@ const images = [
 const totalImages = images.length;
 let value = 0;
 
+// create carousel indicator
+const carouselNav = document.getElementById("carouselNav");
+for (i = 0; i < totalImages; i++) {
+  const div = document.createElement("div");
+  div.setAttribute("id", i);
+  div.classList.add("carousel-indicator");
+  carouselNav.appendChild(div);
+}
+
+// reference of next and previous button
 const nextButtonElement = document.getElementById("nextButton");
 const prevButtonElement = document.getElementById("prevButton");
 
@@ -40,9 +50,23 @@ const span = document.createElement("span");
 span.classList.add("carousel-caption");
 span.textContent = images[value].caption;
 
+// add default carousel indicator
+carouselNav.children[0].classList.add("active");
+
 // add image and caption on image container
 imgContainer.appendChild(img);
 imgContainer.appendChild(span);
+
+// add carousel indicator
+function addCarouselIndicator(carouselNumber) {
+  for (let i = 0; i < totalImages; i++) {
+    if (i === carouselNumber) {
+      carouselNav.children[i].classList.add("active");
+    } else {
+      carouselNav.children[i].classList.remove("active");
+    }
+  }
+}
 
 // next event
 nextButtonElement.addEventListener("click", () => {
@@ -51,11 +75,13 @@ nextButtonElement.addEventListener("click", () => {
     img.src = images[value].url;
     imgContainer.appendChild(img);
     span.textContent = images[value].caption;
+    addCarouselIndicator(value);
   } else {
     value = 0;
     img.src = images[value].url;
     imgContainer.appendChild(img);
     span.textContent = images[value].caption;
+    addCarouselIndicator(value);
   }
 });
 
@@ -66,10 +92,12 @@ prevButtonElement.addEventListener("click", () => {
     img.src = images[value].url;
     imgContainer.appendChild(img);
     span.textContent = images[value].caption;
+    addCarouselIndicator(value);
   } else {
     value = totalImages - 1;
     img.src = images[value].url;
     imgContainer.appendChild(img);
     span.textContent = images[value].caption;
+    addCarouselIndicator(value);
   }
 });
