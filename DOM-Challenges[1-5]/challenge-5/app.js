@@ -46,16 +46,15 @@ img.classList.add("carousel-image");
 img.src = images[value].url;
 
 // create span element for store caption
-const span = document.createElement("span");
-span.classList.add("carousel-caption");
-span.textContent = images[value].caption;
+const caption = document.getElementById("caption");
+caption.innerText = images[value].caption;
 
 // add default carousel indicator
 carouselNav.children[0].classList.add("active");
 
 // add image and caption on image container
+imgContainer.appendChild(caption);
 imgContainer.appendChild(img);
-imgContainer.appendChild(span);
 
 // add carousel indicator
 function addCarouselIndicator(carouselNumber) {
@@ -74,13 +73,13 @@ nextButtonElement.addEventListener("click", () => {
     value += 1;
     img.src = images[value].url;
     imgContainer.appendChild(img);
-    span.textContent = images[value].caption;
+    caption.innerText = images[value].caption;
     addCarouselIndicator(value);
   } else {
     value = 0;
     img.src = images[value].url;
     imgContainer.appendChild(img);
-    span.textContent = images[value].caption;
+    caption.innerText = images[value].caption;
     addCarouselIndicator(value);
   }
 });
@@ -91,13 +90,46 @@ prevButtonElement.addEventListener("click", () => {
     value -= 1;
     img.src = images[value].url;
     imgContainer.appendChild(img);
-    span.textContent = images[value].caption;
+    caption.innerText = images[value].caption;
     addCarouselIndicator(value);
   } else {
     value = totalImages - 1;
     img.src = images[value].url;
     imgContainer.appendChild(img);
-    span.textContent = images[value].caption;
+    caption.innerText = images[value].caption;
     addCarouselIndicator(value);
+  }
+});
+
+// auto-play carousel
+const autoPlayButton = document.getElementById("autoPlayButton");
+const timerDisplay = document.getElementById("timerDisplay");
+
+autoPlayButton.addEventListener("click", () => {
+  autoPlayButton.classList.toggle("active");
+  if (autoPlayButton.classList.contains("active")) {
+    autoPlayButton.textContent = "Stop Auto Play";
+    let countDown = 5;
+    const intervalId = setInterval(() => {
+      timerDisplay.textContent = `Next Slide in ${countDown}`;
+      countDown--;
+
+      if (countDown < 0) {
+        countDown = 5;
+        if (value === 3) value = -1;
+        value += 1;
+        img.src = images[value].url;
+        imgContainer.appendChild(img);
+        caption.innerText = images[value].caption;
+        addCarouselIndicator(value);
+      }
+    }, 1000);
+
+    autoPlayButton.dataset.intervalId = intervalId;
+  } else {
+    autoPlayButton.textContent = "Start Auto Play";
+    const intervalId = autoPlayButton.dataset.intervalId;
+    clearInterval(intervalId);
+    timerDisplay.textContent = "";
   }
 });
