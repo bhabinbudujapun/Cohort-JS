@@ -102,6 +102,12 @@ h2 {
   left: 50%;
 }
 
+.clock-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .digital-clock {
   font-size: 3.5rem;
   font-weight: bold;
@@ -115,7 +121,7 @@ h2 {
 }
 
 .date {
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   margin-top: 10px;
   opacity: 0.8;
 }
