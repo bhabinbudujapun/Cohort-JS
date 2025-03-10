@@ -12,7 +12,7 @@ function displayDigitalTime() {
   const second = date.getSeconds().toString().padStart(2, 0);
 
   digitalClock.textContent = `${hour}:${minutes}:${second} ${
-    date.getHours >= 12 ? "AM" : "PM"
+    date.getHours() >= 12 ? "PM" : "AM"
   }`;
 }
 
