@@ -52,5 +52,41 @@ function displayDateTime() {
   } ${date.getFullYear()}`;
 }
 
-displayDigitalTime();
+function addClockNumbers() {
+  const clock = document.querySelector(".clock");
+  const radius = 140;
+
+  for (let i = 1; i <= 12; i++) {
+    const numberElement = document.createElement("div");
+    numberElement.classList.add("number");
+
+    numberElement.style.setProperty("--rotation", `${i * 30}deg`);
+    numberElement.innerHTML = `<span>${i}</span>`;
+
+    clock.appendChild(numberElement);
+  }
+}
+
+function updateClockHands() {
+  const now = new Date();
+  const hours = now.getHours() % 12;
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+  const secondDeg = seconds * 6; // 1 sec = 6° (360°/60)
+  const minuteDeg = minutes * 6 + seconds * 0.1; // 1 min = 6° + small movement for seconds
+  const hourDeg = hours * 30 + minutes * 0.5; // 1 hour = 30° + small movement for minutes
+
+  // Apply rotation to hands
+  document.querySelector(".second").style.transform = `rotate(${secondDeg}deg)`;
+  document.querySelector(".minute").style.transform = `rotate(${minuteDeg}deg)`;
+  document.querySelector(".hour").style.transform = `rotate(${hourDeg}deg)`;
+}
+
+setInterval(() => {
+  updateClockHands();
+  displayDigitalTime();
+}, 1000);
+
+addClockNumbers();
 displayDateTime();
