@@ -26,7 +26,7 @@ let value = 0;
 
 // create carousel indicator
 const carouselNav = document.getElementById("carouselNav");
-for (i = 0; i < totalImages; i++) {
+for (let i = 0; i < totalImages; i++) {
   const div = document.createElement("div");
   div.setAttribute("id", i);
   div.classList.add("carousel-indicator");
@@ -67,20 +67,22 @@ function addCarouselIndicator(carouselNumber) {
   }
 }
 
+// update carousel
+function updateCarousel(index) {
+  img.src = images[index].url;
+  imgContainer.appendChild(img);
+  caption.innerText = images[index].caption;
+  addCarouselIndicator(index);
+}
+
 // next event
 nextButtonElement.addEventListener("click", () => {
   if (value < totalImages - 1) {
     value += 1;
-    img.src = images[value].url;
-    imgContainer.appendChild(img);
-    caption.innerText = images[value].caption;
-    addCarouselIndicator(value);
+    updateCarousel(value);
   } else {
     value = 0;
-    img.src = images[value].url;
-    imgContainer.appendChild(img);
-    caption.innerText = images[value].caption;
-    addCarouselIndicator(value);
+    updateCarousel(value);
   }
 });
 
@@ -88,16 +90,10 @@ nextButtonElement.addEventListener("click", () => {
 prevButtonElement.addEventListener("click", () => {
   if (value > 0) {
     value -= 1;
-    img.src = images[value].url;
-    imgContainer.appendChild(img);
-    caption.innerText = images[value].caption;
-    addCarouselIndicator(value);
+    updateCarousel(value);
   } else {
     value = totalImages - 1;
-    img.src = images[value].url;
-    imgContainer.appendChild(img);
-    caption.innerText = images[value].caption;
-    addCarouselIndicator(value);
+    updateCarousel(value);
   }
 });
 
