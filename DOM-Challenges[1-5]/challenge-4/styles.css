@@ -12,6 +12,10 @@ h1 {
   margin-bottom: 30px;
 }
 
+label {
+  cursor: pointer;
+}
+
 .task-form {
   display: flex;
   margin-bottom: 20px;
