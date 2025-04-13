@@ -1,5 +1,6 @@
 let cart = [];
 
+// update cart
 function updateCart() {
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotalContainer = document.getElementById("cart-total");
@@ -11,38 +12,65 @@ function updateCart() {
     return; // Exit early if the cart is empty
   }
 
-  let total = 0;
+  // when cart has atleast one value
   let cartContent = "";
-  cart.forEach((item, index) => {
-    total += item.productPrice * item.productQuantity;
-    cartContent += `
-      <div class="cart-item">
-        <span>${item.productName}</span>
-        <span>${item.productPrice.toFixed(2)} x ${item.productQuantity}</span>
-        <button onclick="subtractFromCart(${index})">-</button>
-        <button onclick="addToCart('${item.productName}', ${
-      item.productPrice
-    })">+</button>
-      </div>
-    `;
-  });
+  let totalCost = 0;
+  cart.forEach((product, index) => {
+    let price = parseFloat(product.productPrice);
+    let quantity = parseFloat(product.productQuantity);
+    let cost = parseFloat(price * quantity);
+    totalCost += cost;
 
-  cartItemsContainer.innerHTML = cartContent;
-  cartTotalContainer.innerHTML = `<h3>Total: $${total.toFixed(2)}</h3>`;
+    cartContent += `
+    <div class="quantity-cart"> 
+        <p>${product.productName}</p>
+      <div>
+        <button type="button" onClick="subtractItem(${index})"> - </button> <span> ${
+      product.productQuantity
+    } </span> <button type="button" onClick="addItem(${index})"> + </button> <span> ${cost.toFixed(
+      2
+    )} </span>
+        <button type="button" onClick="removeItem(${index})"> Remove </button> 
+      </div>
+    </div>`;
+
+    cartItemsContainer.innerHTML = cartContent;
+    cartTotalContainer.innerHTML = `<h3>Total: ${totalCost.toFixed(2)}</h3>`;
+  });
 }
 
-// updateCart();
+// increase product item of cart
+function addItem(index) {
+  cart[index].productQuantity++;
+  updateCart();
+}
 
+// decrease product item of cart
+function subtractItem(index) {
+  if (cart[index].productQuantity === 1) {
+    return removeItem(index);
+  }
+  cart[index].productQuantity--;
+  updateCart();
+}
+
+// remove product item of cart
+function removeItem(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
+
+// add product item in the cart
 function addToCart(productName, productPrice) {
-  const productExist = cart.find(
-    (product) => product.productName === productName
-  );
+  //Check cart - returns product object if found, undefined otherwise
+  const productExist = cart.find((item) => item.productName === productName);
 
   if (productExist) {
-    productExist.productQuantity++;
+    productExist.productQuantity++; // Increase the product quantity
   } else {
-    cart.push({ productName, productPrice, productQuantity: 1 });
+    cart.push({ productName, productPrice, productQuantity: 1 }); // Add new product to cart with default quantity of product 1
   }
   updateCart();
 }
-function subtractToCart(productIndex) {}
+
+updateCart();
