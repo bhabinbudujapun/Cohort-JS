@@ -50,8 +50,20 @@ button {
   cursor: pointer;
 }
 
-.empty-cart {
-  text-align: center;
+
+.empty-cart,
+.quantity-cart {
+  display: flex;
+  justify-content: center;
+  align-content: center;
   color: #666;
   padding: 20px;
+}
+
+.empty-cart {
+  justify-content: center;
+}
+
+.quantity-cart {
+  justify-content: space-between;
 }
