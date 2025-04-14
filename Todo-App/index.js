@@ -6,6 +6,10 @@ let taskList = document.getElementById("taskList");
 addTaskButton.addEventListener("click", () => {
   // Check for valid input like, blank input is not added to task list
   if (inputTask.value.length) {
+    // Creating 'div' element
+    let div = document.createElement("div");
+    div.className = 'buttons'
+
     // Creating 'li' tag/element
     let taskItem = document.createElement("li");
     taskItem.className = "taskItem"; // Set Class Name
@@ -21,13 +25,15 @@ addTaskButton.addEventListener("click", () => {
     let editButton = document.createElement("button");
     editButton.id = "editTaskButton";
     editButton.innerText = "Edit"; // Set Button text
-    taskItem.appendChild(editButton);
+    div.appendChild(editButton);
+    taskItem.appendChild(div);
 
     // Create Delete Button
     let deleteButton = document.createElement("button");
     deleteButton.id = "deleteTaskButton";
     deleteButton.innerText = "Delete"; // Set Button text
-    taskItem.appendChild(deleteButton);
+    div.appendChild(deleteButton);
+    taskItem.appendChild(div);
 
     // Pre-Append task items
     taskList.prepend(taskItem);
