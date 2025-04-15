@@ -1,119 +1,85 @@
-let addTaskButton = document.getElementById("addTaskButton");
+document.getElementById("addTaskButton").addEventListener("click", () => {
+  const inputTask = document.getElementById("inputTask");
+  const taskList = document.getElementById("taskList");
 
-// Selecting task list
-let taskList = document.getElementById("taskList");
+  if (!inputTask.value.trim()) return;
 
-addTaskButton.addEventListener("click", () => {
-  // Check for valid input like, blank input is not added to task list
-  if (inputTask.value.length) {
-    // Creating 'div' element
-    let div = document.createElement("div");
-    div.className = 'buttons'
+  // Create task item container
+  const taskItem = document.createElement("li");
+  taskItem.className = "taskItem";
 
-    // Creating 'li' tag/element
-    let taskItem = document.createElement("li");
-    taskItem.className = "taskItem"; // Set Class Name
+  // Task text span
+  const spanField = document.createElement("span");
+  spanField.className = "taskText";
+  spanField.textContent = inputTask.value;
+  taskItem.appendChild(spanField);
 
-    // Create Span Element
-    const spanField = document.createElement("span");
-    spanField.className = "taskText";
-    let inputTask = document.getElementById("inputTask"); // Selecting input Field
-    spanField.textContent = inputTask.value; // Set user input value
-    taskItem.appendChild(spanField);
+  // Buttons container
+  const buttonsDiv = document.createElement("div");
+  buttonsDiv.className = "buttons";
 
-    // Create Edit Button
-    let editButton = document.createElement("button");
-    editButton.id = "editTaskButton";
-    editButton.innerText = "Edit"; // Set Button text
-    div.appendChild(editButton);
-    taskItem.appendChild(div);
+  // Edit Button
+  const editButton = document.createElement("button");
+  editButton.textContent = "Edit";
+  buttonsDiv.appendChild(editButton);
 
-    // Create Delete Button
-    let deleteButton = document.createElement("button");
-    deleteButton.id = "deleteTaskButton";
-    deleteButton.innerText = "Delete"; // Set Button text
-    div.appendChild(deleteButton);
-    taskItem.appendChild(div);
+  // Delete Button
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  buttonsDiv.appendChild(deleteButton);
 
-    // Pre-Append task items
-    taskList.prepend(taskItem);
+  taskItem.appendChild(buttonsDiv);
+  taskList.prepend(taskItem);
+  inputTask.value = "";
 
-    // Clearing input field
-    inputTask.value = "";
+  // Delete functionality
+  deleteButton.addEventListener("click", () => {
+    taskItem.remove();
+  });
 
-    // Clear All Task At Once
-    deleteButton.addEventListener("click", () => {
-      taskItem.remove();
+  // Edit functionality
+  editButton.addEventListener("click", () => {
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.value = spanField.textContent;
+
+    taskItem.replaceChild(inputField, spanField);
+    editButton.style.display = "none";
+    deleteButton.style.display = "none";
+
+    // Update button
+    const updateButton = document.createElement("button");
+    updateButton.textContent = "Update";
+    
+    // Cancel button
+    const cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+
+    buttonsDiv.appendChild(updateButton);
+    buttonsDiv.appendChild(cancelButton);
+
+    // Update functionality
+    updateButton.addEventListener("click", () => {
+      spanField.textContent = inputField.value;
+      taskItem.replaceChild(spanField, inputField);
+      editButton.style.display = "inline-block";
+      deleteButton.style.display = "inline-block";
+      updateButton.remove();
+      cancelButton.remove();
     });
 
-    // Edit Funcationality
-    let editTaskButton = document.getElementById("editTaskButton");
-    editTaskButton.addEventListener("click", () => {
-      // Create input field
-      let inputField = document.createElement("input");
-      inputField.type = "text";
-      inputField.value = taskItem.childNodes[0].textContent;
-
-      // Store the original text content
-      let originalText = taskItem.childNodes[0].textContent;
-
-      // Replace text with input field
-      taskItem.replaceChild(inputField, taskItem.childNodes[0]);
-
-      // Hide edit and delete button
-      editButton.style.display = "none";
-      deleteButton.style.display = "none";
-
-      // Create Update Button
-      let updateButton = document.createElement("button");
-      updateButton.textContent = "Update";
-      updateButton.id = "updateButton";
-
-      // Create Cancel Button
-      let cancelButton = document.createElement("button");
-      cancelButton.textContent = "Cancel";
-      cancelButton.id = "cancelButton";
-
-      // Add New Buttons
-      taskItem.appendChild(updateButton);
-      taskItem.appendChild(cancelButton);
-
-      // Update Functionality
-      updateButton.addEventListener("click", () => {
-        // Restore the original task text
-        spanField.textContent = inputField.value;
-
-        // Replce the input field with the updated tast text span
-        inputField.replaceWith(spanField);
-
-        editButton.style.display = "inline-block";
-        deleteButton.style.display = "inline-block";
-
-        cancelButton.remove();
-        updateButton.remove();
-      });
-
-      // Cancle Functionality
-      cancelButton.addEventListener("click", () => {
-        // Restore the original task text
-        spanField.textContent = inputField.value;
-
-        // Replce the input field with the original tast text span
-        inputField.replaceWith(spanField);
-
-        editButton.style.display = "inline-block";
-        deleteButton.style.display = "inline-block";
-
-        cancelButton.remove();
-        updateButton.remove();
-      });
+    // Cancel functionality
+    cancelButton.addEventListener("click", () => {
+      taskItem.replaceChild(spanField, inputField);
+      editButton.style.display = "inline-block";
+      deleteButton.style.display = "inline-block";
+      updateButton.remove();
+      cancelButton.remove();
     });
-  }
+  });
 });
 
-// Clear all task
-let clearTaskButton = document.getElementById("clearTaskButton");
-
-clearTaskButton.addEventListener("click", () => {
-  taskList.replaceChildren();
+// Clear all tasks
+document.getElementById("clearTaskButton").addEventListener("click", () => {
+  document.getElementById("taskList").replaceChildren();
 });
