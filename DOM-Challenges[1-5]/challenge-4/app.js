@@ -66,6 +66,19 @@ addButton.addEventListener("click", () => {
   let totalNumberTask = taskList.childElementCount;
   totalTasks.textContent = `Total tasks: ${totalNumberTask}`;
 
+  // Delete functionality
+  deleteButton.addEventListener("click", () => {
+    deleteButton.parentElement.parentElement.remove();
+    totalNumberTask -= 1;
+    
+    totalTasks.textContent = `Total tasks: ${totalNumberTask}`;
+  });
+
+  // Edit functionality
+  editButton.addEventListener("click", () => {
+    console.log("edit");
+  });
+
   // Check the checkbox of the task
   const changeOnCheckBox = document.getElementById(input.id);
   changeOnCheckBox.addEventListener("change", () => {
